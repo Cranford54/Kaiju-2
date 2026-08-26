@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Tax Artists</title>
+<link rel="icon" href="assets/image.png">
+<link rel="preconnect" href="https://fonts.cdnfonts.com">
+<link href="https://fonts.cdnfonts.com/css/geist-sans" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy: { DEFAULT: '#0A1E3F', 50: '#EEF1F6', 100: '#D3DAE7', 600: '#12274A', 900: '#0A1E3F', 950: '#060F22' },
+          royal: { DEFAULT: '#0056D6', 50: '#EAF1FF', 100: '#CFE0FF', 600: '#0056D6', 700: '#0047B3', 800: '#08398C' },
+          brick: { DEFAULT: '#C8102E', 600: '#C8102E', 700: '#A50D24' },
+          slate: { DEFAULT: '#6B7280' },
+          mist: { DEFAULT: '#F3F4F6' },
+        },
+        fontFamily: {
+          sans: ['"Geist Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Inter', 'system-ui', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  :root{
+    --shadow-sharp: 0 1px 0 0 rgba(10,30,63,0.06), 0 1px 2px 0 rgba(10,30,63,0.08);
+    --shadow-elegant: 0 20px 50px -20px rgba(10,30,63,0.35), 0 8px 20px -12px rgba(10,30,63,0.18);
+    --shadow-glow: 0 0 60px -12px rgba(0,86,214,0.35);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-feature-settings: "ss01","cv11"; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  .tracking-tightest { letter-spacing: -0.03em; }
+  .eyebrow { font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.72rem; }
+
+  .card-elevated { box-shadow: var(--shadow-elegant); }
+  .card-sharp { box-shadow: var(--shadow-sharp); }
+  .btn-glow:hover { box-shadow: var(--shadow-glow); }
+
+  /* Flow button — animated dashed border on hover/focus. SVG overlay is
+     injected by assets/flow-button.js; this just positions/animates it. */
+  .flow-btn { position: relative; }
+  .flow-btn > .flow-border {
+    position: absolute; inset: -1px; z-index: 1;
+    opacity: 0; pointer-events: none;
+    transition: opacity .2s ease-out;
+  }
+  .flow-btn:hover > .flow-border,
+  .flow-btn:focus-visible > .flow-border { opacity: 1; }
+  .flow-btn > .flow-border path { animation: dash-flow 1s linear infinite; }
+  @keyframes dash-flow { to { stroke-dashoffset: -10; } }
+  @media (prefers-reduced-motion: reduce) {
+    .flow-btn > .flow-border path { animation: none; }
+  }
+
+  .mesh-hero {
+    background-image:
+      radial-gradient(ellipse 70% 55% at 18% -10%, rgba(200,16,46,0.22), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 88% 10%, rgba(0,86,214,0.24), transparent 60%),
+      radial-gradient(ellipse 90% 70% at 50% 100%, rgba(10,30,63,0.06), transparent 70%);
+  }
+  .mesh-navy {
+    background-image:
+      radial-gradient(ellipse 60% 60% at 85% 0%, rgba(200,16,46,0.22), transparent 55%),
+      radial-gradient(ellipse 70% 60% at 5% 100%, rgba(0,86,214,0.28), transparent 55%);
+  }
+  .grain {
+    position: absolute; inset: 0; pointer-events: none;
+    opacity: 0.5; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+  }
+
+  .star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+
+  ::selection { background: rgba(0,86,214,0.2); color: #0A1E3F; }
+
+  a, button { transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), background-color .25s ease, color .25s ease, border-color .25s ease; }
+  .lift:hover { transform: translateY(-3px); }
+  .lift:active { transform: translateY(-1px); }
+
+  :focus-visible { outline: 2px solid #0056D6; outline-offset: 3px; border-radius: 4px; }
+
+  .fade-up { transform: translateY(10px); animation: fadeUp .4s cubic-bezier(.16,1,.3,1) forwards; }
+  @keyframes fadeUp { to { transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    a, button, .fade-up { animation: none !important; transition: none !important; }
+    .fade-up { opacity: 1; transform: none; }
+  }
+
+  .credential-row { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+</style>
+</head>
+<body class="bg-white text-navy-900 font-sans antialiased">
+
+<!-- ============ NAV ============ -->
+<header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-navy-100/70">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
+      <img src="assets/image.png" alt="Tax Artists" class="h-8 w-auto">
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-[0.9rem]">
+      <a href="about.html" class="text-navy-900 font-semibold">About</a>
+      <a href="services.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Services</a>
+      <a href="tax-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Tax Planning</a>
+      <a href="estate-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Estate Planning</a>
+      <a href="resources.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Resources</a>
+      <a href="contact.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Contact</a>
+    </nav>
+
+    <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift btn-glow inline-flex items-center rounded-full bg-royal-600 text-white text-[0.85rem] font-medium px-4 py-2 hover:bg-royal-700 active:bg-royal-800 focus-visible:outline-offset-4">
+      Book a call
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="relative overflow-hidden mesh-hero">
+    <div class="grain"></div>
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 pt-20 pb-24 lg:pt-24 lg:pb-28 text-center relative">
+      <div class="fade-up eyebrow text-brick-600">About</div>
+      <h1 class="fade-up mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" style="animation-delay:.06s">
+        Built by strategists, not salespeople.
+      </h1>
+      <p class="fade-up mt-5 max-w-xl mx-auto text-[1.05rem] leading-[1.7] text-navy-900/60" style="animation-delay:.12s">
+        Tax Artists started with a simple frustration: too many firms treat tax season as a once-a-year scramble. We built a practice around the opposite idea — steady, year-round partnership.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="relative rounded-2xl overflow-hidden aspect-[4/3] card-elevated bg-navy-900 order-2 lg:order-1">
+        <img src="https://picsum.photos/id/160/800/600?grayscale" alt="Where the work happens" class="w-full h-full object-cover opacity-80">
+        <div class="absolute inset-0 bg-gradient-to-br from-navy-900/60 via-royal-800/20 to-brick-600/30 mix-blend-multiply"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <div class="eyebrow text-brick-600">How we started</div>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest leading-[1.1]">
+          A small practice, on purpose.
+        </h2>
+        <div class="mt-5 space-y-4 text-[1.02rem] leading-[1.75] text-navy-900/60">
+          <p>We kept the team small so every client works directly with the person who actually knows their file — not a rotating cast of preparers during crunch season.</p>
+          <p>That means fewer clients per strategist, more time spent planning instead of just filing, and a habit of picking up the phone before a small issue becomes an expensive one.</p>
+          <p>It's slower to scale. We're fine with that.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="py-16 lg:py-20 bg-mist/40 border-y border-navy-100/70">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="text-center max-w-lg mx-auto">
+        <div class="eyebrow text-brick-600">What we stand for</div>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Four things we won't compromise on.</h2>
+      </div>
+
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+          <div class="w-9 h-9 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="mt-3.5 font-semibold text-[0.98rem]">Trustworthy</div>
+          <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">Straightforward advice you can rely on, backed by CPAs who stand behind every number.</p>
+        </div>
+        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+          <div class="w-9 h-9 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5l2.36 5.6 6.14.5-4.68 4.02 1.44 5.98L12 15.9l-5.26 2.7 1.44-5.98L3.5 8.6l6.14-.5z" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="mt-3.5 font-semibold text-[0.98rem]">Expert</div>
+          <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">Deep technical knowledge across tax prep, planning, and estate strategy.</p>
+        </div>
+        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+          <div class="w-9 h-9 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="mt-3.5 font-semibold text-[0.98rem]">Strategic</div>
+          <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">We look past this year's return to build a plan for years of growth.</p>
+        </div>
+        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+          <div class="w-9 h-9 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
+            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.7-3.4 3-5 5.5-5s4.8 1.6 5.5 5" stroke-linecap="round"/><path d="M16.5 7.2a3 3 0 010 5.7M19 19c-.4-2-1.4-3.5-2.8-4.4" stroke-linecap="round"/></svg>
+          </div>
+          <div class="mt-3.5 font-semibold text-[0.98rem]">Client&#8209;Focused</div>
+          <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">Small-team attention — you work directly with the people who know your file.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="py-16 lg:py-24">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="text-center max-w-lg mx-auto">
+        <div class="eyebrow text-brick-600">The team</div>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Who you'll actually talk to.</h2>
+      </div>
+
+      <div class="mt-10 grid sm:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="relative rounded-2xl overflow-hidden aspect-square card-sharp bg-navy-900 mx-auto max-w-[220px]">
+            <img src="https://picsum.photos/id/338/400/400?grayscale" alt="Portrait" class="w-full h-full object-cover opacity-85">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/50 to-transparent"></div>
+          </div>
+          <div class="mt-4 font-semibold">Alex Rivera, CPA</div>
+          <div class="text-[0.85rem] text-navy-900/50">Founder &amp; Managing Partner</div>
+        </div>
+        <div class="text-center">
+          <div class="relative rounded-2xl overflow-hidden aspect-square card-sharp bg-navy-900 mx-auto max-w-[220px]">
+            <img src="https://picsum.photos/id/91/400/400?grayscale" alt="Portrait" class="w-full h-full object-cover opacity-85">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/50 to-transparent"></div>
+          </div>
+          <div class="mt-4 font-semibold">Jordan Lee, CPA</div>
+          <div class="text-[0.85rem] text-navy-900/50">Estate &amp; Trust Planning Lead</div>
+        </div>
+        <div class="text-center">
+          <div class="relative rounded-2xl overflow-hidden aspect-square card-sharp bg-navy-900 mx-auto max-w-[220px]">
+            <img src="https://picsum.photos/id/64/400/400?grayscale" alt="Portrait" class="w-full h-full object-cover opacity-85">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-900/50 to-transparent"></div>
+          </div>
+          <div class="mt-4 font-semibold">Sam Patel, EA</div>
+          <div class="text-[0.85rem] text-navy-900/50">Senior Tax Strategist</div>
+        </div>
+      </div>
+      <p class="mt-8 text-center text-[0.8rem] text-navy-900/35">Team names shown are illustrative placeholders — swap in your real team before launch.</p>
+    </div>
+  </section>
+
+  <!-- ============ CREDENTIALS ============ -->
+  <section class="py-14 border-y border-navy-100/70 bg-mist/60">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="eyebrow text-center text-navy-900/40">Credentialed &amp; trusted</div>
+      <div class="credential-row mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-navy-900/55 font-semibold text-[0.95rem] tracking-tight">
+        <span>Licensed CPAs</span>
+        <span>IRS Enrolled Agents</span>
+        <span>NAEA Member</span>
+        <span>AICPA</span>
+        <span>NATP</span>
+        <span>BBB Accredited</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING CTA ============ -->
+  <section class="relative py-20 lg:py-24 bg-navy-900 text-white overflow-hidden mesh-navy">
+    <div class="grain" style="opacity:0.35"></div>
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative text-center">
+      <div class="eyebrow text-white/40">Book a call</div>
+      <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Ready when you are.</h2>
+      <p class="mt-3 max-w-md mx-auto text-white/60 leading-[1.7]">
+        Most intro calls run 20–30 minutes and are free — no pressure, just a clear plan for your taxes.
+      </p>
+      <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift btn-glow mt-7 inline-flex items-center justify-center gap-1.5 rounded-lg bg-royal-600 text-white font-medium px-6 py-3.5 hover:bg-royal-700 active:bg-royal-800">
+        Book a consultation
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-navy-100/70">
+  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div>
+      <a href="index.html" class="flex items-center">
+        <img src="assets/image.png" alt="Tax Artists" class="h-7 w-auto">
+      </a>
+      <p class="mt-4 text-[0.85rem] text-navy-900/50 leading-[1.7] max-w-[220px]">
+        Clear guidance, filed on time — tax strategy for founders, owners &amp; families.
+      </p>
+    </div>
+    <div>
+      <div class="eyebrow text-navy-900/40 mb-3">Company</div>
+      <ul class="space-y-2 text-[0.9rem] text-navy-900/65">
+        <li><a href="about.html" class="hover:text-navy-900">About</a></li>
+        <li><a href="services.html" class="hover:text-navy-900">Services</a></li>
+        <li><a href="resources.html" class="hover:text-navy-900">Resources</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="eyebrow text-navy-900/40 mb-3">Planning</div>
+      <ul class="space-y-2 text-[0.9rem] text-navy-900/65">
+        <li><a href="tax-planning.html" class="hover:text-navy-900">Tax Planning</a></li>
+        <li><a href="estate-planning.html" class="hover:text-navy-900">Estate Planning</a></li>
+        <li><a href="contact.html" class="hover:text-navy-900">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="eyebrow text-navy-900/40 mb-3">Get in touch</div>
+      <a href="mailto:hello@taxartists.com" class="text-[0.9rem] text-royal-600 hover:text-royal-700">hello@taxartists.com</a>
+    </div>
+  </div>
+  <div class="border-t border-navy-100/70">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
+  </div>
+</footer>
+
+<script src="assets/flow-button.js" defer></script>
+</body>
+</html>
