@@ -59,7 +59,7 @@
       }
 
       if (WEBHOOK_URL.indexOf("REPLACE_WITH") !== -1) {
-        setStatus(statusEl, "Form isn't connected yet — email hello@taxartists.com directly for now.", "error");
+        setStatus(statusEl, "Form isn't connected yet — email sterling@financialarchitects.com directly for now.", "error");
         return;
       }
 
@@ -94,7 +94,7 @@
           }
         })
         .catch(function () {
-          setStatus(statusEl, "Something went wrong — please email hello@taxartists.com directly.", "error");
+          setStatus(statusEl, "Something went wrong — please email sterling@financialarchitects.com directly.", "error");
         })
         .finally(function () {
           if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitLabel; }
