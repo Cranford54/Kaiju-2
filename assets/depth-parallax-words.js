@@ -4,7 +4,7 @@
  * staggered 70ms per word so a line arrives with dimension instead of flat.
  * Adapted from a React (framer-motion) component — depth-parallax-words.tsx —
  * into vanilla JS since this site has no build step (no React/TS/shadcn),
- * same approach as assets/flow-button.js. Home page only.
+ * same approach as assets/flow-button.js. Loaded site-wide.
  *
  * Usage: add class="depth-parallax" to a heading/subhead element. Optional
  * data attributes:

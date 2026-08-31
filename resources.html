@@ -90,7 +90,32 @@
     a, button, .fade-up { animation: none !important; transition: none !important; }
     .fade-up { opacity: 1; transform: none; }
   }
-</style>
+
+  /* Depth Parallax Words — per-word 3D depth reveal for headings and
+     subheads, site-wide. Markup is split into .dpw-word spans by
+     assets/depth-parallax-words.js; this just defines the two states and
+     the transition between them. `perspective` on the container gives the
+     translateZ below real depth rather than a faked 2D scale. */
+  .depth-parallax { perspective: 900px; }
+  .depth-parallax .dpw-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateZ(-90px) translateY(18px) scale(.92);
+    transition: transform .7s cubic-bezier(.22,1,.36,1),
+                filter .7s cubic-bezier(.22,1,.36,1),
+                opacity .7s cubic-bezier(.22,1,.36,1);
+  }
+  .depth-parallax.dpw-play .dpw-word {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateZ(0) translateY(0) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth-parallax .dpw-word {
+      opacity: 1; filter: none; transform: none; transition: none;
+    }
+  }</style>
 </head>
 <body class="bg-white text-navy-900 font-sans antialiased">
 
@@ -122,8 +147,8 @@
   <section class="relative overflow-hidden mesh-hero">
     <div class="grain"></div>
     <div class="max-w-4xl mx-auto px-6 lg:px-8 pt-20 pb-24 lg:pt-24 lg:pb-28 text-center relative">
-      <div class="fade-up eyebrow text-brick-600">Resources</div>
-      <h1 class="fade-up mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" style="animation-delay:.06s">
+      <div class="depth-parallax eyebrow text-brick-600">Resources</div>
+      <h1 class="depth-parallax mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" data-dpw-delay="80">
         Guides worth your time.
       </h1>
       <p class="fade-up mt-5 max-w-xl mx-auto text-[1.05rem] leading-[1.7] text-navy-900/60" style="animation-delay:.12s">
@@ -229,8 +254,8 @@
       <div class="grain" style="opacity:0.25"></div>
     </div>
     <div class="max-w-xl mx-auto px-6 lg:px-8 text-center relative">
-      <div class="eyebrow text-brick-100">Stay ahead of deadlines</div>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-bold tracking-tightest text-white">One email a month. No fluff.</h2>
+      <div class="depth-parallax eyebrow text-brick-100" data-dpw-view>Stay ahead of deadlines</div>
+      <h2 class="depth-parallax mt-3 text-2xl sm:text-3xl font-bold tracking-tightest text-white" data-dpw-view data-dpw-delay="100">One email a month. No fluff.</h2>
       <p class="mt-3 text-[0.95rem] leading-[1.7] text-white/60">
         Deadline reminders and a plain-English rundown of anything that actually changed this year.
       </p>
@@ -246,8 +271,8 @@
   <section class="relative py-20 lg:py-24 bg-navy-900 text-white overflow-hidden mesh-navy">
     <div class="grain" style="opacity:0.35"></div>
     <div class="max-w-6xl mx-auto px-6 lg:px-8 relative text-center">
-      <div class="eyebrow text-white/40">Book a call</div>
-      <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Prefer to just ask us directly?</h2>
+      <div class="depth-parallax eyebrow text-white/40" data-dpw-view>Book a call</div>
+      <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">Prefer to just ask us directly?</h2>
       <p class="mt-3 max-w-md mx-auto text-white/60 leading-[1.7]">
         Skip the guides — tell us your situation and we'll answer it on a free call.
       </p>
@@ -298,5 +323,6 @@
 </footer>
 
 <script src="assets/flow-button.js" defer></script>
+<script src="assets/depth-parallax-words.js" defer></script>
 </body>
 </html>

@@ -93,6 +93,31 @@
     .fade-up { opacity: 1; transform: none; }
   }
 
+  /* Depth Parallax Words — per-word 3D depth reveal for headings and
+     subheads, site-wide. Markup is split into .dpw-word spans by
+     assets/depth-parallax-words.js; this just defines the two states and
+     the transition between them. `perspective` on the container gives the
+     translateZ below real depth rather than a faked 2D scale. */
+  .depth-parallax { perspective: 900px; }
+  .depth-parallax .dpw-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateZ(-90px) translateY(18px) scale(.92);
+    transition: transform .7s cubic-bezier(.22,1,.36,1),
+                filter .7s cubic-bezier(.22,1,.36,1),
+                opacity .7s cubic-bezier(.22,1,.36,1);
+  }
+  .depth-parallax.dpw-play .dpw-word {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateZ(0) translateY(0) scale(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .depth-parallax .dpw-word {
+      opacity: 1; filter: none; transform: none; transition: none;
+    }
+  }
   .credential-row { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 </style>
 </head>
@@ -126,8 +151,8 @@
   <section class="relative overflow-hidden mesh-hero">
     <div class="grain"></div>
     <div class="max-w-4xl mx-auto px-6 lg:px-8 pt-20 pb-24 lg:pt-24 lg:pb-28 text-center relative">
-      <div class="fade-up eyebrow text-brick-600">About</div>
-      <h1 class="fade-up mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" style="animation-delay:.06s">
+      <div class="depth-parallax eyebrow text-brick-600">About</div>
+      <h1 class="depth-parallax mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" data-dpw-delay="80">
         Built by strategists, not salespeople.
       </h1>
       <p class="fade-up mt-5 max-w-xl mx-auto text-[1.05rem] leading-[1.7] text-navy-900/60" style="animation-delay:.12s">
@@ -145,8 +170,8 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
       </div>
       <div class="order-1 lg:order-2">
-        <div class="eyebrow text-brick-600">How we started</div>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest leading-[1.1]">
+        <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>How we started</div>
+        <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest leading-[1.1]" data-dpw-view data-dpw-delay="100">
           A small practice, on purpose.
         </h2>
         <div class="mt-5 space-y-4 text-[1.02rem] leading-[1.75] text-navy-900/60">
@@ -168,8 +193,8 @@
     </div>
     <div class="max-w-6xl mx-auto px-6 lg:px-8 relative">
       <div class="text-center max-w-lg mx-auto">
-        <div class="eyebrow text-brick-100">What we stand for</div>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest text-white">Four things we won't compromise on.</h2>
+        <div class="depth-parallax eyebrow text-brick-100" data-dpw-view>What we stand for</div>
+        <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest text-white" data-dpw-view data-dpw-delay="100">Four things we won't compromise on.</h2>
       </div>
 
       <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -209,8 +234,8 @@
   <section class="py-16 lg:py-24">
     <div class="max-w-5xl mx-auto px-6 lg:px-8">
       <div class="text-center max-w-lg mx-auto">
-        <div class="eyebrow text-brick-600">The team</div>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Who you'll actually talk to.</h2>
+        <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>The team</div>
+        <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">Who you'll actually talk to.</h2>
       </div>
 
       <div class="mt-14 space-y-16">
@@ -279,7 +304,7 @@
   <!-- ============ CREDENTIALS ============ -->
   <section class="py-14 border-y border-navy-100/70 bg-mist/60">
     <div class="max-w-6xl mx-auto px-6 lg:px-8">
-      <div class="eyebrow text-center text-navy-900/40">Credentialed &amp; trusted</div>
+      <div class="depth-parallax eyebrow text-center text-navy-900/40" data-dpw-view>Credentialed &amp; trusted</div>
       <div class="credential-row mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-navy-900/55 font-semibold text-[0.95rem] tracking-tight">
         <span>Licensed CPAs</span>
         <span>IRS Enrolled Agents</span>
@@ -295,8 +320,8 @@
   <section class="relative py-20 lg:py-24 bg-navy-900 text-white overflow-hidden mesh-navy">
     <div class="grain" style="opacity:0.35"></div>
     <div class="max-w-6xl mx-auto px-6 lg:px-8 relative text-center">
-      <div class="eyebrow text-white/40">Book a call</div>
-      <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Ready when you are.</h2>
+      <div class="depth-parallax eyebrow text-white/40" data-dpw-view>Book a call</div>
+      <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">Ready when you are.</h2>
       <p class="mt-3 max-w-md mx-auto text-white/60 leading-[1.7]">
         Most intro calls run 20–30 minutes and are free — no pressure, just a clear plan for your taxes.
       </p>
@@ -347,5 +372,6 @@
 </footer>
 
 <script src="assets/flow-button.js" defer></script>
+<script src="assets/depth-parallax-words.js" defer></script>
 </body>
 </html>
