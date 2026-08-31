@@ -15,7 +15,7 @@
         colors: {
           navy: { DEFAULT: '#0A1E3F', 50: '#EEF1F6', 100: '#D3DAE7', 600: '#12274A', 900: '#0A1E3F', 950: '#060F22' },
           royal: { DEFAULT: '#0056D6', 50: '#EAF1FF', 100: '#CFE0FF', 600: '#0056D6', 700: '#0047B3', 800: '#08398C' },
-          brick: { DEFAULT: '#C8102E', 600: '#C8102E', 700: '#A50D24' },
+          brick: { DEFAULT: '#C8102E', 100: '#F6C9D2', 600: '#C8102E', 700: '#A50D24' },
           slate: { DEFAULT: '#6B7280' },
           mist: { DEFAULT: '#F3F4F6' },
         },
@@ -221,14 +221,20 @@
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <section class="py-16 lg:py-20 bg-mist/40 border-y border-navy-100/70">
-    <div class="max-w-xl mx-auto px-6 lg:px-8 text-center">
-      <div class="eyebrow text-brick-600">Stay ahead of deadlines</div>
-      <h2 class="mt-3 text-2xl sm:text-3xl font-bold tracking-tightest">One email a month. No fluff.</h2>
-      <p class="mt-3 text-[0.95rem] leading-[1.7] text-navy-900/55">
+  <section class="relative py-16 lg:py-20 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1600&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-br from-navy-900/95 via-navy-900/90 to-royal-800/85 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-navy-950/55"></div>
+      <div class="grain" style="opacity:0.25"></div>
+    </div>
+    <div class="max-w-xl mx-auto px-6 lg:px-8 text-center relative">
+      <div class="eyebrow text-brick-100">Stay ahead of deadlines</div>
+      <h2 class="mt-3 text-2xl sm:text-3xl font-bold tracking-tightest text-white">One email a month. No fluff.</h2>
+      <p class="mt-3 text-[0.95rem] leading-[1.7] text-white/60">
         Deadline reminders and a plain-English rundown of anything that actually changed this year.
       </p>
-      <form class="mt-6 flex flex-col sm:flex-row gap-3">
+      <form class="mt-6 flex flex-col sm:flex-row gap-3 rounded-2xl bg-white/95 backdrop-blur card-elevated p-3">
         <label for="newsletter-email" class="sr-only">Email address</label>
         <input id="newsletter-email" type="email" placeholder="you@company.com" class="flex-1 rounded-lg border border-navy-100 px-4 py-3 text-[0.95rem] placeholder:text-navy-900/30 focus:border-royal-600 focus:ring-1 focus:ring-royal-600 outline-none bg-white">
         <button type="submit" class="flow-btn lift btn-glow rounded-lg bg-royal-600 text-white font-medium px-6 py-3 hover:bg-royal-700 active:bg-royal-800">Subscribe</button>

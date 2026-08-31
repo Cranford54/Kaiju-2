@@ -15,7 +15,7 @@
         colors: {
           navy: { DEFAULT: '#0A1E3F', 50: '#EEF1F6', 100: '#D3DAE7', 600: '#12274A', 900: '#0A1E3F', 950: '#060F22' },
           royal: { DEFAULT: '#0056D6', 50: '#EAF1FF', 100: '#CFE0FF', 600: '#0056D6', 700: '#0047B3', 800: '#08398C' },
-          brick: { DEFAULT: '#C8102E', 600: '#C8102E', 700: '#A50D24' },
+          brick: { DEFAULT: '#C8102E', 100: '#F6C9D2', 600: '#C8102E', 700: '#A50D24' },
           slate: { DEFAULT: '#6B7280' },
           mist: { DEFAULT: '#F3F4F6' },
         },
@@ -159,36 +159,42 @@
   </section>
 
   <!-- ============ VALUES ============ -->
-  <section class="py-16 lg:py-20 bg-mist/40 border-y border-navy-100/70">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+  <section class="relative py-16 lg:py-20 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=1600&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-br from-navy-900/95 via-navy-900/90 to-royal-800/85 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-navy-950/55"></div>
+      <div class="grain" style="opacity:0.25"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative">
       <div class="text-center max-w-lg mx-auto">
-        <div class="eyebrow text-brick-600">What we stand for</div>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Four things we won't compromise on.</h2>
+        <div class="eyebrow text-brick-100">What we stand for</div>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest text-white">Four things we won't compromise on.</h2>
       </div>
 
       <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+        <div class="lift rounded-xl border border-white/10 p-5 card-elevated hover:border-royal-100 bg-white/95 backdrop-blur">
           <div class="w-9 h-9 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
             <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="mt-3.5 font-semibold text-[0.98rem]">Trustworthy</div>
           <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">Straightforward advice you can rely on, backed by CPAs who stand behind every number.</p>
         </div>
-        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+        <div class="lift rounded-xl border border-white/10 p-5 card-elevated hover:border-royal-100 bg-white/95 backdrop-blur">
           <div class="w-9 h-9 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
             <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.5l2.36 5.6 6.14.5-4.68 4.02 1.44 5.98L12 15.9l-5.26 2.7 1.44-5.98L3.5 8.6l6.14-.5z" stroke-linejoin="round"/></svg>
           </div>
           <div class="mt-3.5 font-semibold text-[0.98rem]">Expert</div>
           <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">Deep technical knowledge across tax prep, planning, and estate strategy.</p>
         </div>
-        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+        <div class="lift rounded-xl border border-white/10 p-5 card-elevated hover:border-royal-100 bg-white/95 backdrop-blur">
           <div class="w-9 h-9 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
             <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="mt-3.5 font-semibold text-[0.98rem]">Strategic</div>
           <p class="mt-1 text-[0.88rem] leading-[1.6] text-navy-900/55">We look past this year's return to build a plan for years of growth.</p>
         </div>
-        <div class="lift rounded-xl border border-navy-100 p-5 card-sharp hover:border-royal-100 bg-white">
+        <div class="lift rounded-xl border border-white/10 p-5 card-elevated hover:border-royal-100 bg-white/95 backdrop-blur">
           <div class="w-9 h-9 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
             <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.7-3.4 3-5 5.5-5s4.8 1.6 5.5 5" stroke-linecap="round"/><path d="M16.5 7.2a3 3 0 010 5.7M19 19c-.4-2-1.4-3.5-2.8-4.4" stroke-linecap="round"/></svg>
           </div>

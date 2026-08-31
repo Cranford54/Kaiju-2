@@ -15,7 +15,7 @@
         colors: {
           navy: { DEFAULT: '#0A1E3F', 50: '#EEF1F6', 100: '#D3DAE7', 600: '#12274A', 900: '#0A1E3F', 950: '#060F22' },
           royal: { DEFAULT: '#0056D6', 50: '#EAF1FF', 100: '#CFE0FF', 600: '#0056D6', 700: '#0047B3', 800: '#08398C' },
-          brick: { DEFAULT: '#C8102E', 600: '#C8102E', 700: '#A50D24' },
+          brick: { DEFAULT: '#C8102E', 100: '#F6C9D2', 600: '#C8102E', 700: '#A50D24' },
           slate: { DEFAULT: '#6B7280' },
           mist: { DEFAULT: '#F3F4F6' },
         },
@@ -200,30 +200,36 @@
   </section>
 
   <!-- ============ PROCESS ============ -->
-  <section class="py-16 lg:py-20 bg-mist/40 border-y border-navy-100/70">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+  <section class="relative py-16 lg:py-20 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-br from-navy-900/95 via-navy-900/90 to-royal-800/85 mix-blend-multiply"></div>
+      <div class="absolute inset-0 bg-navy-950/55"></div>
+      <div class="grain" style="opacity:0.25"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative">
       <div class="text-center max-w-lg mx-auto">
-        <div class="eyebrow text-brick-600">How we work</div>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Four steps, every engagement.</h2>
+        <div class="eyebrow text-brick-100">How we work</div>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest text-white">Four steps, every engagement.</h2>
       </div>
 
       <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div>
+        <div class="rounded-xl border border-white/10 p-5 card-elevated bg-white/95 backdrop-blur">
           <div class="text-[0.8rem] font-bold text-royal-600">01</div>
           <div class="mt-2 font-semibold">Discovery call</div>
           <p class="mt-1.5 text-[0.88rem] leading-[1.6] text-navy-900/55">A free 20-minute conversation about where things stand and what you need.</p>
         </div>
-        <div>
+        <div class="rounded-xl border border-white/10 p-5 card-elevated bg-white/95 backdrop-blur">
           <div class="text-[0.8rem] font-bold text-royal-600">02</div>
           <div class="mt-2 font-semibold">Review &amp; strategy</div>
           <p class="mt-1.5 text-[0.88rem] leading-[1.6] text-navy-900/55">We review prior filings and build a plan, in writing, before any work begins.</p>
         </div>
-        <div>
+        <div class="rounded-xl border border-white/10 p-5 card-elevated bg-white/95 backdrop-blur">
           <div class="text-[0.8rem] font-bold text-royal-600">03</div>
           <div class="mt-2 font-semibold">Filing &amp; execution</div>
           <p class="mt-1.5 text-[0.88rem] leading-[1.6] text-navy-900/55">Returns filed, elections made, documents handled — you sign off, we do the rest.</p>
         </div>
-        <div>
+        <div class="rounded-xl border border-white/10 p-5 card-elevated bg-white/95 backdrop-blur">
           <div class="text-[0.8rem] font-bold text-royal-600">04</div>
           <div class="mt-2 font-semibold">Year-round check-ins</div>
           <p class="mt-1.5 text-[0.88rem] leading-[1.6] text-navy-900/55">Quarterly touchpoints so next year's return has no surprises in it.</p>
