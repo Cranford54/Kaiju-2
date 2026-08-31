@@ -202,47 +202,32 @@
 
       <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://picsum.photos/id/5/640/400?grayscale" alt="Free consultation call" class="w-full h-full object-cover opacity-75">
+          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Consultation" alt="Free consultation call" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-royal-800/60 to-navy-900/50 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Free consultation</span>
         </div>
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://picsum.photos/id/119/640/400?grayscale" alt="Reviewing a tax plan" class="w-full h-full object-cover opacity-75">
+          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Tax+Planning" alt="Reviewing a tax plan" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-brick-700/60 to-navy-900/50 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Tax planning</span>
         </div>
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://picsum.photos/id/48/640/400?grayscale" alt="Estate planning conversation" class="w-full h-full object-cover opacity-75">
+          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Estate+Planning" alt="Estate planning conversation" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-navy-900/60 to-royal-800/40 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Estate planning</span>
         </div>
       </div>
 
-      <div class="mt-6 rounded-2xl bg-white/[0.04] border border-white/10 p-6 lg:p-8">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
-          <div class="eyebrow text-white/35">Next available openings</div>
-          <span class="text-[0.8rem] text-white/40">All times Central</span>
+      <div class="mt-6 rounded-2xl bg-white/[0.04] border border-white/10 p-3 sm:p-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 px-2">
+          <div class="eyebrow text-white/35">Live availability</div>
+          <span class="text-[0.8rem] text-white/40">Synced with our calendar</span>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift text-left rounded-xl border border-white/10 bg-white/[0.03] hover:border-royal-100/60 hover:bg-white/[0.07] px-4 py-3.5">
-            <div class="text-[0.78rem] text-white/40">Tue, Sep 1</div>
-            <div class="mt-0.5 font-semibold text-white">10:00 AM</div>
-          </a>
-          <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift text-left rounded-xl border border-white/10 bg-white/[0.03] hover:border-royal-100/60 hover:bg-white/[0.07] px-4 py-3.5">
-            <div class="text-[0.78rem] text-white/40">Tue, Sep 1</div>
-            <div class="mt-0.5 font-semibold text-white">2:30 PM</div>
-          </a>
-          <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift text-left rounded-xl border border-royal-600 bg-royal-600/90 px-4 py-3.5">
-            <div class="text-[0.78rem] text-royal-100">Wed, Sep 2</div>
-            <div class="mt-0.5 font-semibold text-white">9:00 AM</div>
-          </a>
-          <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift text-left rounded-xl border border-white/10 bg-white/[0.03] hover:border-royal-100/60 hover:bg-white/[0.07] px-4 py-3.5">
-            <div class="text-[0.78rem] text-white/40">Thu, Sep 3</div>
-            <div class="mt-0.5 font-semibold text-white">11:30 AM</div>
-          </a>
+        <div class="rounded-xl overflow-hidden bg-white">
+          <iframe src="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" style="width:100%;height:850px;border:none;overflow:hidden;display:block" scrolling="no" id="sterling-louviere_booking-widget" title="Book a call — live calendar"></iframe>
         </div>
         <p class="mt-5 text-center text-[0.85rem] text-white/40">
           Don't see a time that works? <a href="mailto:hello@taxartists.com" class="text-royal-100 hover:text-white underline underline-offset-2">Email us instead</a>.
@@ -252,6 +237,8 @@
   </section>
 
 </main>
+
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
 
 <!-- ============ FOOTER ============ -->
 <footer class="border-t border-navy-100/70">
