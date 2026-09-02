@@ -123,15 +123,63 @@
 
 
   .credential-row { -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+
+  /* Credentialed & Trusted marquee — continuous, linear, seamless loop (track is the
+     badge list duplicated once; translating exactly -50% hands off with no jump). */
+  @keyframes credential-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .credential-track { animation: credential-marquee 32s linear infinite; }
+  .credential-row:hover .credential-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .credential-track { animation: none; }
+  }
+
+  /* Coverflow carousel — 3D photo carousel (assets/coverflow-carousel.js
+     paints these transforms directly onto .cf-card nodes every frame). */
+  .cf-frame { perspective: calc(var(--cf-card) * 3); touch-action: pan-y; }
+  .cf-card { position: absolute; left: 50%; top: 0; width: var(--cf-card); }
+  .cf-dot { cursor: pointer; transition: opacity .25s ease; }
+  .cf-dot[aria-current="true"] { opacity: 1; }
+  .cf-dot[aria-current="false"] { opacity: .3; }
+  @media (prefers-reduced-motion: reduce) {
+    .cf-card { transition: none; }
+  }
+  /* ============ RESPONSIVE CONTAINER SYSTEM ============
+     Shared outer-container classes, replacing the repeated max-w-N / mx-auto / px-6 lg:px-8
+     combo used for every section wrapper. Identical to the original max-w-6xl / max-w-5xl
+     / max-w-4xl + px-6 lg:px-8 at every viewport up to 1536px, so mobile/tablet/laptop are
+     pixel-for-pixel unchanged. Past that, width and side padding grow fluidly (capped) so
+     large/ultrawide monitors use more of the screen instead of stranding huge side margins.
+     The narrow/hero variants keep the exact same fixed inset from the main container
+     (128px and 256px total) at every size, preserving today's proportions. */
+  .container-page, .container-page-narrow, .container-page-hero {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.5rem;               /* 24px — matches px-6 */
+  }
+  @media (min-width: 1024px) {            /* lg — matches lg:px-8 */
+    .container-page, .container-page-narrow, .container-page-hero { padding-inline: 2rem; } /* 32px */
+  }
+  .container-page        { max-width: 72rem; }  /* 1152px — matches max-w-6xl */
+  .container-page-narrow { max-width: 64rem; }  /* 1024px — matches max-w-5xl */
+  .container-page-hero   { max-width: 56rem; }  /* 896px — matches max-w-4xl */
+
+  @media (min-width: 1536px) {            /* 2xl+ — large desktop / ultrawide */
+    .container-page, .container-page-narrow, .container-page-hero {
+      padding-inline: clamp(2rem, -1rem + 3.125vw, 4rem);              /* 32px -> 64px */
+    }
+    .container-page        { max-width: clamp(72rem, 30rem + 44vw, 100rem); } /* 1152px -> 1600px */
+    .container-page-narrow { max-width: clamp(64rem, 22rem + 44vw, 92rem); }  /* keeps 128px inset */
+    .container-page-hero   { max-width: clamp(56rem, 14rem + 44vw, 84rem); }  /* keeps 256px inset */
+  }
 </style>
 </head>
 <body class="bg-white text-navy-900 font-sans antialiased">
 
 <!-- ============ NAV ============ -->
 <header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-navy-100/70">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+  <div class="container-page h-16 flex items-center justify-between">
     <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
-      <img src="assets/image.png" alt="Tax Artists" class="h-8 w-auto">
+      <img src="assets/image.png" alt="Tax Artists" class="h-11 w-auto">
     </a>
 
     <nav class="hidden lg:flex items-center gap-7 text-[0.9rem] text-navy-900/70">
@@ -154,7 +202,7 @@
   <!-- ============ HERO ============ -->
   <section class="relative overflow-hidden mesh-hero">
     <div class="grain"></div>
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 pt-20 pb-28 lg:pt-28 lg:pb-36 text-center relative">
+    <div class="container-page pt-20 pb-28 lg:pt-28 lg:pb-36 text-center relative">
       <div class="fade-up inline-flex items-center gap-2 rounded-full border border-navy-100 bg-white/80 px-3.5 py-1.5 text-[0.8rem] text-navy-900/70 card-sharp">
         <span class="w-1.5 h-1.5 rounded-full bg-brick-600 shrink-0"></span>
         Tax strategy for founders, owners &amp; families
@@ -185,7 +233,7 @@
   <!-- Stat cards, overlapping hero/next section boundary. Kept OUTSIDE the hero <section> —
        that section is overflow-hidden (to contain the mesh background), which would clip
        anything pulled past its edge with negative margin. -->
-  <div class="relative z-10 max-w-5xl mx-auto px-6 lg:px-8 -mt-16 lg:-mt-20">
+  <div class="relative z-10 container-page-narrow -mt-16 lg:-mt-20">
     <div class="grid grid-cols-1 sm:grid-cols-3 rounded-2xl bg-white card-elevated border border-navy-100/60 overflow-hidden">
       <div class="px-8 py-7 text-center border-b sm:border-b-0 sm:border-r border-navy-100/70">
         <div class="text-3xl lg:text-4xl font-bold tracking-tightest text-navy-900">15+</div>
@@ -202,9 +250,33 @@
     </div>
   </div>
 
+  <!-- Credentialed & trusted — compact credibility marquee, tail end of the hero (sits directly
+       under the stat cards, on the same white ground, so it reads as part of the hero rather
+       than a separate section). -->
+  <div class="relative z-10 container-page-narrow mt-7 lg:mt-8">
+    <div class="depth-parallax eyebrow text-center text-navy-900/40" data-dpw-view>Credentialed &amp; trusted</div>
+    <div class="credential-row relative mt-4 overflow-hidden">
+      <div class="credential-track flex w-max items-center gap-2.5 sm:gap-3">
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">Licensed CPAs</span>
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">IRS Enrolled Agents</span>
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NAEA Member</span>
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">AICPA</span>
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NATP</span>
+        <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">BBB Accredited</span>
+        <!-- duplicate set, hidden from assistive tech — makes the -50% translate loop seamless -->
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">Licensed CPAs</span>
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">IRS Enrolled Agents</span>
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NAEA Member</span>
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">AICPA</span>
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NATP</span>
+        <span aria-hidden="true" class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">BBB Accredited</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ============ ABOUT TEASER ============ -->
   <section class="pt-24 lg:pt-28 pb-16 lg:pb-20">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="container-page">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         <div>
           <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>About</div>
@@ -254,21 +326,6 @@
     </div>
   </section>
 
-  <!-- ============ CREDENTIALS ============ -->
-  <section class="py-14 border-y border-navy-100/70 bg-mist/60">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
-      <div class="depth-parallax eyebrow text-center text-navy-900/40" data-dpw-view>Credentialed &amp; trusted</div>
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">Licensed CPAs</span>
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">IRS Enrolled Agents</span>
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NAEA Member</span>
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">AICPA</span>
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">NATP</span>
-        <span class="lift inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">BBB Accredited</span>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ SERVICES TEASER ============ -->
   <section class="relative py-16 lg:py-20 overflow-hidden">
     <div class="absolute inset-0">
@@ -277,7 +334,7 @@
       <div class="absolute inset-0 bg-navy-950/55"></div>
       <div class="grain" style="opacity:0.25"></div>
     </div>
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative">
+    <div class="container-page relative">
       <div class="text-center">
         <div class="depth-parallax eyebrow text-brick-100" data-dpw-view>What we do</div>
         <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest text-white" data-dpw-view data-dpw-delay="100">Three ways we help.</h2>
@@ -322,45 +379,61 @@
   </section>
 
   <!-- ============ GALLERY ============ -->
-  <section class="py-16 lg:py-20 border-y border-navy-100/70 bg-mist/40">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+  <section class="py-10 lg:py-14 border-y border-navy-100/70 bg-mist/40">
+    <div class="container-page">
       <div class="text-center">
         <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>Real conversations, real results</div>
         <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">The work, up close.</h2>
       </div>
 
-      <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <figure class="relative rounded-xl overflow-hidden aspect-[3/4] group card-sharp bg-navy-900">
-          <img src="https://placehold.co/480x640/0A1E3F/E6E8EC?text=Client+Session" alt="Working through a client's numbers" class="w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-br from-navy-900/70 via-navy-900/20 to-brick-600/40 mix-blend-multiply"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-          <figcaption class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Client strategy session</figcaption>
-        </figure>
-        <figure class="relative rounded-xl overflow-hidden aspect-[3/4] group card-sharp bg-navy-900">
-          <img src="https://placehold.co/480x640/0A1E3F/E6E8EC?text=Estate+Review" alt="Notes and planning ahead of a filing" class="w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-br from-royal-800/70 via-navy-900/20 to-navy-900/40 mix-blend-multiply"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-          <figcaption class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Estate plan review</figcaption>
-        </figure>
-        <figure class="relative rounded-xl overflow-hidden aspect-[3/4] group card-sharp bg-navy-900">
-          <img src="https://placehold.co/480x640/0A1E3F/E6E8EC?text=Our+Office" alt="The city our office looks out on" class="w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-br from-brick-700/70 via-navy-900/20 to-navy-900/40 mix-blend-multiply"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-          <figcaption class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Our office, downtown</figcaption>
-        </figure>
-        <figure class="relative rounded-xl overflow-hidden aspect-[3/4] group card-sharp bg-navy-900">
-          <img src="https://placehold.co/480x640/0A1E3F/E6E8EC?text=Filing+Prep" alt="Preparing filings before deadline" class="w-full h-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-br from-navy-900/70 via-royal-800/20 to-brick-600/30 mix-blend-multiply"></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-          <figcaption class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Ahead of deadline</figcaption>
-        </figure>
+      <div class="mt-6 w-full" data-coverflow style="--cf-card: clamp(190px, 30vw, 320px);">
+        <div class="relative">
+          <div class="cf-frame relative cursor-grab overflow-hidden py-6 active:cursor-grabbing focus-visible:outline-offset-4" data-cf-frame tabindex="0">
+            <div class="relative select-none w-full" data-cf-track style="height:var(--cf-card); transform-style:preserve-3d;">
+              <figure class="cf-card aspect-square rounded-xl overflow-hidden card-elevated will-change-transform bg-navy-900" role="group" aria-label="Slide 1 of 4">
+                <img src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&q=80&auto=format&fit=crop" alt="Client strategy session" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-br from-navy-900/70 via-navy-900/20 to-brick-600/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              </figure>
+              <figure class="cf-card aspect-square rounded-xl overflow-hidden card-elevated will-change-transform bg-navy-900" role="group" aria-label="Slide 2 of 4">
+                <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800&q=80&auto=format&fit=crop" alt="Estate plan review" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-br from-royal-800/70 via-navy-900/20 to-navy-900/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              </figure>
+              <figure class="cf-card aspect-square rounded-xl overflow-hidden card-elevated will-change-transform bg-navy-900" role="group" aria-label="Slide 3 of 4">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop" alt="Our office, downtown" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-br from-brick-700/70 via-navy-900/20 to-navy-900/40 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              </figure>
+              <figure class="cf-card aspect-square rounded-xl overflow-hidden card-elevated will-change-transform bg-navy-900" role="group" aria-label="Slide 4 of 4">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&auto=format&fit=crop" alt="Ahead of deadline" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-br from-navy-900/70 via-royal-800/20 to-brick-600/30 mix-blend-multiply"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+              </figure>
+            </div>
+          </div>
+
+          <button type="button" data-cf-prev aria-label="Previous" class="lift absolute left-0 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" data-cf-next aria-label="Next" class="lift absolute right-0 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="mt-4 flex items-center justify-center gap-2">
+          <button type="button" data-cf-dot aria-label="Go to slide 1" class="cf-dot w-2 h-2 rounded-full bg-navy-900 focus-visible:outline-offset-2"></button>
+          <button type="button" data-cf-dot aria-label="Go to slide 2" class="cf-dot w-2 h-2 rounded-full bg-navy-900 focus-visible:outline-offset-2"></button>
+          <button type="button" data-cf-dot aria-label="Go to slide 3" class="cf-dot w-2 h-2 rounded-full bg-navy-900 focus-visible:outline-offset-2"></button>
+          <button type="button" data-cf-dot aria-label="Go to slide 4" class="cf-dot w-2 h-2 rounded-full bg-navy-900 focus-visible:outline-offset-2"></button>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ FORM + INFO ============ -->
   <section id="form" class="py-16 lg:py-20">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="container-page">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-16">
         <div>
           <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>Contact</div>
@@ -411,7 +484,7 @@
   <!-- ============ BOOK A CALL ============ -->
   <section class="relative py-20 lg:py-24 bg-navy-900 text-white overflow-hidden mesh-navy">
     <div class="grain" style="opacity:0.35"></div>
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative">
+    <div class="container-page relative">
       <div class="text-center max-w-lg mx-auto">
         <div class="eyebrow text-white/40">Or pick a time</div>
         <h2 class="mt-3 text-3xl sm:text-4xl font-bold tracking-tightest">Ready when you are.</h2>
@@ -422,19 +495,19 @@
 
       <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Consultation" alt="Free consultation call" class="w-full h-full object-cover opacity-75">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&q=80&auto=format&fit=crop" alt="Free consultation call" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-royal-800/60 to-navy-900/50 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Free consultation</span>
         </div>
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Tax+Planning" alt="Reviewing a tax plan" class="w-full h-full object-cover opacity-75">
+          <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80&auto=format&fit=crop" alt="Reviewing a tax plan" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-brick-700/60 to-navy-900/50 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Tax planning</span>
         </div>
         <div class="relative rounded-xl overflow-hidden aspect-[16/10] card-sharp bg-navy-900">
-          <img src="https://placehold.co/640x400/0A1E3F/E6E8EC?text=Estate+Planning" alt="Estate planning conversation" class="w-full h-full object-cover opacity-75">
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=80&auto=format&fit=crop" alt="Estate planning conversation" class="w-full h-full object-cover opacity-75">
           <div class="absolute inset-0 bg-gradient-to-br from-navy-900/60 to-royal-800/40 mix-blend-multiply"></div>
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
           <span class="absolute bottom-3 left-3 text-white text-[0.8rem] font-medium">Estate planning</span>
@@ -462,10 +535,10 @@
 
 <!-- ============ FOOTER ============ -->
 <footer class="border-t border-navy-100/70">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+  <div class="container-page py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
     <div>
       <a href="index.html" class="flex items-center">
-        <img src="assets/image.png" alt="Tax Artists" class="h-7 w-auto">
+        <img src="assets/image.png" alt="Tax Artists" class="h-9 w-auto">
       </a>
       <p class="mt-4 text-[0.85rem] text-navy-900/50 leading-[1.7] max-w-[220px]">
         Clear guidance, filed on time — tax strategy for founders, owners &amp; families.
@@ -493,11 +566,12 @@
     </div>
   </div>
   <div class="border-t border-navy-100/70">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
+    <div class="container-page py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
   </div>
 </footer>
 
 <script src="assets/flow-button.js" defer></script>
 <script src="assets/depth-parallax-words.js" defer></script>
+<script src="assets/coverflow-carousel.js" defer></script>
 </body>
 </html>

@@ -115,15 +115,43 @@
     .depth-parallax .dpw-word {
       opacity: 1; filter: none; transform: none; transition: none;
     }
-  }</style>
+  }  /* ============ RESPONSIVE CONTAINER SYSTEM ============
+     Shared outer-container classes, replacing the repeated max-w-N / mx-auto / px-6 lg:px-8
+     combo used for every section wrapper. Identical to the original max-w-6xl / max-w-5xl
+     / max-w-4xl + px-6 lg:px-8 at every viewport up to 1536px, so mobile/tablet/laptop are
+     pixel-for-pixel unchanged. Past that, width and side padding grow fluidly (capped) so
+     large/ultrawide monitors use more of the screen instead of stranding huge side margins.
+     The narrow/hero variants keep the exact same fixed inset from the main container
+     (128px and 256px total) at every size, preserving today's proportions. */
+  .container-page, .container-page-narrow, .container-page-hero {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.5rem;               /* 24px — matches px-6 */
+  }
+  @media (min-width: 1024px) {            /* lg — matches lg:px-8 */
+    .container-page, .container-page-narrow, .container-page-hero { padding-inline: 2rem; } /* 32px */
+  }
+  .container-page        { max-width: 72rem; }  /* 1152px — matches max-w-6xl */
+  .container-page-narrow { max-width: 64rem; }  /* 1024px — matches max-w-5xl */
+  .container-page-hero   { max-width: 56rem; }  /* 896px — matches max-w-4xl */
+
+  @media (min-width: 1536px) {            /* 2xl+ — large desktop / ultrawide */
+    .container-page, .container-page-narrow, .container-page-hero {
+      padding-inline: clamp(2rem, -1rem + 3.125vw, 4rem);              /* 32px -> 64px */
+    }
+    .container-page        { max-width: clamp(72rem, 30rem + 44vw, 100rem); } /* 1152px -> 1600px */
+    .container-page-narrow { max-width: clamp(64rem, 22rem + 44vw, 92rem); }  /* keeps 128px inset */
+    .container-page-hero   { max-width: clamp(56rem, 14rem + 44vw, 84rem); }  /* keeps 256px inset */
+  }
+</style>
 </head>
 <body class="bg-white text-navy-900 font-sans antialiased">
 
 <!-- ============ NAV ============ -->
 <header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-navy-100/70">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+  <div class="container-page h-16 flex items-center justify-between">
     <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
-      <img src="assets/image.png" alt="Tax Artists" class="h-8 w-auto">
+      <img src="assets/image.png" alt="Tax Artists" class="h-11 w-auto">
     </a>
 
     <nav class="hidden lg:flex items-center gap-7 text-[0.9rem]">
@@ -146,7 +174,7 @@
   <!-- ============ HERO ============ -->
   <section class="relative overflow-hidden mesh-hero">
     <div class="grain"></div>
-    <div class="max-w-4xl mx-auto px-6 lg:px-8 pt-20 pb-24 lg:pt-24 lg:pb-28 text-center relative">
+    <div class="container-page-hero pt-20 pb-24 lg:pt-24 lg:pb-28 text-center relative">
       <div class="depth-parallax eyebrow text-brick-600">Resources</div>
       <h1 class="depth-parallax mt-4 text-[2.5rem] sm:text-5xl lg:text-6xl font-bold tracking-tightest leading-[1.05]" data-dpw-delay="80">
         Guides worth your time.
@@ -159,12 +187,12 @@
 
   <!-- ============ GUIDES GRID ============ -->
   <section class="py-16 lg:py-20">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+    <div class="container-page">
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=Tax+Planning" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1556155092-490a1ba16284?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-royal-800/60 to-navy-900/40 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -177,7 +205,7 @@
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=Founders" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-brick-700/60 to-navy-900/40 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -190,7 +218,7 @@
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=Estate+Planning" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-navy-900/60 to-royal-800/30 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -203,7 +231,7 @@
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=Deductions" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1607863680198-23d4b2565df0?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-royal-800/60 to-navy-900/40 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -216,7 +244,7 @@
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=Deadlines" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-brick-700/60 to-navy-900/40 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -229,7 +257,7 @@
 
         <article class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-navy-900">
-            <img src="https://placehold.co/500x320/0A1E3F/E6E8EC?text=IRS+Notices" alt="" class="w-full h-full object-cover opacity-75">
+            <img src="https://images.unsplash.com/photo-1444653614773-995cb1ef9efa?w=1000&q=80&auto=format&fit=crop" alt="" class="w-full h-full object-cover opacity-75">
             <div class="absolute inset-0 bg-gradient-to-br from-navy-900/60 to-royal-800/30 mix-blend-multiply"></div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -270,7 +298,7 @@
   <!-- ============ CLOSING CTA ============ -->
   <section class="relative py-20 lg:py-24 bg-navy-900 text-white overflow-hidden mesh-navy">
     <div class="grain" style="opacity:0.35"></div>
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 relative text-center">
+    <div class="container-page relative text-center">
       <div class="depth-parallax eyebrow text-white/40" data-dpw-view>Book a call</div>
       <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">Prefer to just ask us directly?</h2>
       <p class="mt-3 max-w-md mx-auto text-white/60 leading-[1.7]">
@@ -287,10 +315,10 @@
 
 <!-- ============ FOOTER ============ -->
 <footer class="border-t border-navy-100/70">
-  <div class="max-w-6xl mx-auto px-6 lg:px-8 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+  <div class="container-page py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
     <div>
       <a href="index.html" class="flex items-center">
-        <img src="assets/image.png" alt="Tax Artists" class="h-7 w-auto">
+        <img src="assets/image.png" alt="Tax Artists" class="h-9 w-auto">
       </a>
       <p class="mt-4 text-[0.85rem] text-navy-900/50 leading-[1.7] max-w-[220px]">
         Clear guidance, filed on time — tax strategy for founders, owners &amp; families.
@@ -318,7 +346,7 @@
     </div>
   </div>
   <div class="border-t border-navy-100/70">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8 py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
+    <div class="container-page py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
   </div>
 </footer>
 
