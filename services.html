@@ -117,7 +117,72 @@
     .depth-parallax .dpw-word {
       opacity: 1; filter: none; transform: none; transition: none;
     }
-  }  /* ============ RESPONSIVE CONTAINER SYSTEM ============
+  }
+
+  /* Stagger Cards — fanned/rotated service-card carousel. Markup is a
+     static stack of .stagger-card elements; assets/stagger-cards.js only
+     ever writes transform/z-index and toggles .is-active — see that file
+     for the positioning contract. */
+  .stagger-frame {
+    height: clamp(400px, 52vw, 500px);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
+  .stagger-card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: clamp(230px, 27vw, 300px);
+    height: clamp(268px, 31vw, 320px);
+    padding: 1.5rem;
+    cursor: pointer;
+    background: #fff;
+    color: #0A1E3F;
+    border: 1px solid #D3DAE7;
+    box-shadow: var(--shadow-sharp);
+    clip-path: polygon(32px 0%, calc(100% - 32px) 0%, 100% 32px, 100% 100%, calc(100% - 32px) 100%, 32px 100%, 0 100%, 0 0);
+    transition: transform .5s cubic-bezier(.16,1,.3,1),
+                background-color .35s ease, border-color .35s ease,
+                box-shadow .35s ease, color .35s ease;
+  }
+  .stagger-card:hover { border-color: #CFE0FF; }
+  .stagger-card.is-active {
+    background: #0056D6;
+    color: #fff;
+    border-color: #0056D6;
+    box-shadow: var(--shadow-elegant);
+  }
+  .stagger-card-corner {
+    position: absolute;
+    display: block;
+    right: -1px;
+    top: 32px;
+    width: 45px;
+    height: 1px;
+    transform-origin: top right;
+    transform: rotate(45deg);
+    background: #D3DAE7;
+  }
+  .stagger-card.is-active .stagger-card-corner { background: rgba(255,255,255,0.35); }
+  .stagger-card .icon-box { transition: background-color .35s ease, color .35s ease; }
+  .stagger-card.is-active .icon-box { background: rgba(255,255,255,0.15) !important; color: #fff !important; }
+  .stagger-card-desc {
+    color: rgba(10,30,63,0.55);
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+  .stagger-card.is-active .stagger-card-desc { color: rgba(255,255,255,0.8); }
+  .stagger-card-link { color: #0056D6; }
+  .stagger-card-link:hover { text-decoration: underline; }
+  .stagger-card.is-active .stagger-card-link { color: #fff; }
+  .stagger-card.is-active:focus-visible,
+  .stagger-card.is-active .stagger-card-link:focus-visible {
+    outline-color: #fff;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .stagger-card { transition: none; }
+  }
+  /* ============ RESPONSIVE CONTAINER SYSTEM ============
      Shared outer-container classes, replacing the repeated max-w-N / mx-auto / px-6 lg:px-8
      combo used for every section wrapper. Identical to the original max-w-6xl / max-w-5xl
      / max-w-4xl + px-6 lg:px-8 at every viewport up to 1536px, so mobile/tablet/laptop are
@@ -161,7 +226,6 @@
       <a href="services.html" class="text-navy-900 font-semibold">Services</a>
       <a href="tax-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Tax Planning</a>
       <a href="estate-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Estate Planning</a>
-      <a href="resources.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Resources</a>
       <a href="contact.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Contact</a>
     </nav>
 
@@ -187,65 +251,90 @@
     </div>
   </section>
 
-  <!-- ============ SERVICES GRID ============ -->
+  <!-- ============ SERVICES CAROUSEL ============ -->
+  <!-- Vanilla port of a "stagger testimonials" carousel — fanned, rotated
+       card stack. Click a card (or use the arrows / ←→ keys) to bring it
+       to center. Behavior lives in assets/stagger-cards.js; the six cards
+       below are plain markup it reads and repositions. -->
   <section class="py-16 lg:py-20">
     <div class="container-page">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="relative" data-stagger tabindex="0" role="group" aria-roledescription="carousel" aria-label="Our services — press left or right to browse">
 
-        <div class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round"/></svg>
+        <div class="stagger-frame relative overflow-hidden">
+          <div class="relative w-full h-full" data-stagger-track>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">Individual Tax Prep</div>
+              <p class="stagger-card-desc mt-1.5">Federal and state returns, filed accurately and reviewed line by line — plus a plain-English walkthrough of what changed from last year.</p>
+            </div>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">Business Tax Prep</div>
+              <p class="stagger-card-desc mt-1.5">S-corp, partnership, and sole-proprietor filings — with quarterly check-ins so nothing surprises you at year-end.</p>
+            </div>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">Tax Planning</div>
+              <p class="stagger-card-desc mt-1.5">Entity structure, timing, and multi-year projections that lower what you owe before the year closes, not after.</p>
+              <a href="tax-planning.html" data-stagger-ignore class="stagger-card-link mt-4 inline-flex items-center gap-1.5 font-medium text-[0.85rem]">
+                Learn more
+                <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">Estate Planning</div>
+              <p class="stagger-card-desc mt-1.5">Tax-efficient strategy for passing on what you've built — coordinated with your attorney, not in place of one.</p>
+              <a href="estate-planning.html" data-stagger-ignore class="stagger-card-link mt-4 inline-flex items-center gap-1.5 font-medium text-[0.85rem]">
+                Learn more
+                <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </div>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">Bookkeeping</div>
+              <p class="stagger-card-desc mt-1.5">Monthly books kept current and reconciled, so tax time is a formality instead of a fire drill.</p>
+            </div>
+
+            <div class="stagger-card" role="button" aria-current="false">
+              <span class="stagger-card-corner"></span>
+              <div class="icon-box w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="stagger-card-title mt-3 font-semibold text-base tracking-tight">IRS Resolution</div>
+              <p class="stagger-card-desc mt-1.5">Notices, audits, and back filings handled directly with the IRS on your behalf, calmly and correctly.</p>
+            </div>
+
           </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">Individual Tax Prep</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">Federal and state returns, filed accurately and reviewed line by line — plus a plain-English walkthrough of what changed from last year.</p>
         </div>
 
-        <div class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke-linecap="round"/></svg>
-          </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">Business Tax Prep</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">S-corp, partnership, and sole-proprietor filings — with quarterly check-ins so nothing surprises you at year-end.</p>
-        </div>
-
-        <a href="tax-planning.html" class="lift group rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 7h5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">Tax Planning</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">Entity structure, timing, and multi-year projections that lower what you owe before the year closes, not after.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-royal-600 group-hover:text-royal-700 font-medium text-[0.85rem]">
-            Learn more
-            <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </a>
-
-        <a href="estate-planning.html" class="lift group rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">Estate Planning</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">Tax-efficient strategy for passing on what you've built — coordinated with your attorney, not in place of one.</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-royal-600 group-hover:text-royal-700 font-medium text-[0.85rem]">
-            Learn more
-            <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M6 4h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </a>
-
-        <div class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-royal-50 text-royal-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">Bookkeeping</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">Monthly books kept current and reconciled, so tax time is a formality instead of a fire drill.</p>
-        </div>
-
-        <div class="lift rounded-2xl border border-navy-100 card-sharp hover:border-royal-100 bg-white p-7">
-          <div class="w-10 h-10 rounded-lg bg-brick-600/10 text-brick-600 flex items-center justify-center">
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5" stroke-linecap="round"/></svg>
-          </div>
-          <div class="mt-4 font-semibold text-lg tracking-tight">IRS Resolution</div>
-          <p class="mt-1.5 text-[0.9rem] leading-[1.65] text-navy-900/55">Notices, audits, and back filings handled directly with the IRS on your behalf, calmly and correctly.</p>
+        <div class="mt-6 flex items-center justify-center gap-3">
+          <button type="button" data-stagger-prev aria-label="Previous service" class="lift w-11 h-11 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" data-stagger-next aria-label="Next service" class="lift w-11 h-11 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+            <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
 
       </div>
@@ -325,7 +414,6 @@
       <ul class="space-y-2 text-[0.9rem] text-navy-900/65">
         <li><a href="about.html" class="hover:text-navy-900">About</a></li>
         <li><a href="services.html" class="hover:text-navy-900">Services</a></li>
-        <li><a href="resources.html" class="hover:text-navy-900">Resources</a></li>
       </ul>
     </div>
     <div>
@@ -348,5 +436,6 @@
 
 <script src="assets/flow-button.js" defer></script>
 <script src="assets/depth-parallax-words.js" defer></script>
+<script src="assets/stagger-cards.js" defer></script>
 </body>
 </html>
