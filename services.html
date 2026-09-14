@@ -77,6 +77,48 @@
 
   .star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 
+  /* ============ SCROLL-AWARE HEADER ============
+     Opens on a translucent navy gradient over the hero (navy logo, white nav
+     text) and crossfades to a translucent white bar (original logo, navy nav
+     text) once the page scrolls past the hero. Both states pair a backdrop-blur
+     with a partly see-through background so whatever's scrolling underneath
+     is still faintly visible through the bar. assets/header-scroll.js just
+     flips `is-scrolled` on #site-header; everything visual is a color/opacity
+     transition here. */
+  .header-surface {
+    position: absolute; inset: 0; z-index: 0;
+    transition: opacity .5s cubic-bezier(.16,1,.3,1);
+  }
+  .header-surface--navy {
+    background: linear-gradient(to bottom, rgba(10,30,63,0.92) 0%, rgba(10,30,63,0.82) 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    opacity: 1;
+  }
+  .header-surface--white {
+    background: rgba(255,255,255,0.85);
+    border-bottom: 1px solid rgba(10,30,63,0.08);
+    opacity: 0;
+  }
+  #site-header.is-scrolled .header-surface--navy { opacity: 0; }
+  #site-header.is-scrolled .header-surface--white { opacity: 1; }
+
+  .logo-img { transition: opacity .5s cubic-bezier(.16,1,.3,1); }
+  .logo-img--navy { opacity: 1; }
+  .logo-img--original { opacity: 0; }
+  #site-header.is-scrolled .logo-img--navy { opacity: 0; }
+  #site-header.is-scrolled .logo-img--original { opacity: 1; }
+
+  .nav-link { color: rgba(255,255,255,0.65); transition: color .4s ease; }
+  .nav-link:hover { color: #fff; }
+  .nav-link.is-active { color: #fff; font-weight: 600; }
+  #site-header.is-scrolled .nav-link { color: rgba(10,30,63,0.7); }
+  #site-header.is-scrolled .nav-link:hover { color: #0A1E3F; }
+  #site-header.is-scrolled .nav-link.is-active { color: #0A1E3F; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-surface, .logo-img, .nav-link { transition: none !important; }
+  }
+
   ::selection { background: rgba(0,86,214,0.2); color: #0A1E3F; }
 
   a, button { transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), background-color .25s ease, color .25s ease, border-color .25s ease; }
@@ -215,18 +257,21 @@
 <body class="bg-white text-navy-900 font-sans antialiased">
 
 <!-- ============ NAV ============ -->
-<header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-navy-100/70">
-  <div class="container-page h-16 flex items-center justify-between">
-    <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
-      <img src="assets/image.png" alt="Tax Artists" class="h-11 w-auto">
+<header id="site-header" class="sticky top-0 z-50 backdrop-blur-md">
+  <div class="header-surface header-surface--navy" aria-hidden="true"></div>
+  <div class="header-surface header-surface--white" aria-hidden="true"></div>
+  <div class="container-page h-16 flex items-center justify-between relative z-10">
+    <a href="index.html" class="logo-swap grid focus-visible:outline-offset-4">
+      <img src="assets/logo-navy.png" alt="Tax Artists" class="logo-img logo-img--navy col-start-1 row-start-1 h-11 w-auto">
+      <img src="assets/image.png" alt="Tax Artists" class="logo-img logo-img--original col-start-1 row-start-1 h-11 w-auto">
     </a>
 
     <nav class="hidden lg:flex items-center gap-7 text-[0.9rem]">
-      <a href="about.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">About</a>
-      <a href="services.html" class="text-navy-900 font-semibold">Services</a>
-      <a href="tax-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Tax Planning</a>
-      <a href="estate-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Estate Planning</a>
-      <a href="contact.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Contact</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="services.html" class="nav-link is-active">Services</a>
+      <a href="tax-planning.html" class="nav-link">Tax Planning</a>
+      <a href="estate-planning.html" class="nav-link">Estate Planning</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </nav>
 
     <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift btn-glow inline-flex items-center rounded-full bg-royal-600 text-white text-[0.85rem] font-medium px-4 py-2 hover:bg-royal-700 active:bg-royal-800 focus-visible:outline-offset-4">
@@ -434,6 +479,7 @@
   </div>
 </footer>
 
+<script src="assets/header-scroll.js" defer></script>
 <script src="assets/flow-button.js" defer></script>
 <script src="assets/depth-parallax-words.js" defer></script>
 <script src="assets/stagger-cards.js" defer></script>
