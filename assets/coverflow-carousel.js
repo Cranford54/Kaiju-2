@@ -16,6 +16,10 @@
 //     [data-cf-track]      preserve-3d, holds one .cf-card per slide
 //   [data-cf-prev] [data-cf-next]   optional nav buttons
 //   [data-cf-dot] (repeated)        optional pagination dots
+//   [data-cf-fill] on the root      optional: clone the slides (as whole sets,
+//                                   aria-hidden) until they fill the frame's
+//                                   width — for full-bleed frames. Dots keep
+//                                   mapping to the original slides.
 (function () {
   var reduceMotion =
     window.matchMedia &&
@@ -29,6 +33,8 @@
     var cards = Array.prototype.slice.call(track.children);
     var count = cards.length;
     if (!count) return;
+    var baseCount = count; // original slides; clones repeat them in whole sets
+    var fill = root.hasAttribute("data-cf-fill");
 
     var opts = {
       rotate: parseFloat(root.dataset.rotate) || 44,
@@ -85,7 +91,7 @@
         card.setAttribute("aria-current", i === index ? "true" : "false");
       });
       root.querySelectorAll("[data-cf-dot]").forEach(function (dot, i) {
-        dot.setAttribute("aria-current", i === index ? "true" : "false");
+        dot.setAttribute("aria-current", i === index % baseCount ? "true" : "false");
       });
     }
 
@@ -106,8 +112,9 @@
     }
 
     function goTo(index) {
+      // Nearest card showing this slide — clones repeat every baseCount cards.
       var t = opts.loop
-        ? index + Math.round((pos - index) / count) * count
+        ? index + Math.round((pos - index) / baseCount) * baseCount
         : index;
       settle(t);
     }
@@ -145,8 +152,28 @@
       setActive(indexAt(pos));
     }
 
+    // Enough cards that the visible span plus the faded wrap-around zone at
+    // each end (offsets wrap at ±count/2) is covered. Only ever grows.
+    function ensureFill() {
+      if (!fill || !opts.loop || !width) return;
+      var pitch = width * (1 + opts.gap);
+      var needed = Math.ceil(frame.offsetWidth / pitch) + 4;
+      while (count < needed) {
+        for (var i = 0; i < baseCount; i++) {
+          var clone = cards[i].cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.removeAttribute("role");
+          clone.removeAttribute("aria-label");
+          track.appendChild(clone);
+          cards.push(clone);
+        }
+        count = cards.length;
+      }
+    }
+
     function measure() {
       width = cards[0].offsetWidth;
+      ensureFill();
       paint();
     }
 

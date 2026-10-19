@@ -277,9 +277,9 @@
   <!-- Credentialed & trusted — compact credibility marquee, tail end of the hero (sits directly
        under the stat cards, on the same white ground, so it reads as part of the hero rather
        than a separate section). -->
-  <div class="relative z-10 container-page-narrow mt-7 lg:mt-8">
+  <div class="relative z-10 w-full mt-7 lg:mt-8">
     <div class="depth-parallax eyebrow text-center text-navy-900/40" data-dpw-view>Credentialed &amp; trusted</div>
-    <div class="credential-row relative mt-4 overflow-hidden">
+    <div class="credential-row relative mt-4 w-full overflow-hidden">
       <div class="credential-track flex w-max items-center gap-2.5 sm:gap-3">
         <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">Licensed CPAs</span>
         <span class="lift shrink-0 inline-flex items-center rounded-full border border-navy-100 bg-white px-4 py-2 text-[0.85rem] font-semibold text-navy-900/70 card-sharp hover:border-royal-100">IRS Enrolled Agents</span>
@@ -409,8 +409,11 @@
         <div class="depth-parallax eyebrow text-brick-600" data-dpw-view>Real conversations, real results</div>
         <h2 class="depth-parallax mt-3 text-3xl sm:text-4xl font-bold tracking-tightest" data-dpw-view data-dpw-delay="100">The work, up close.</h2>
       </div>
+    </div>
 
-      <div class="mt-6 w-full" data-coverflow style="--cf-card: clamp(190px, 30vw, 320px);">
+      <!-- Full-bleed: sits outside .container-page so the frame spans the whole
+           viewport; data-cf-fill clones the slides until they fill that width. -->
+      <div class="mt-6 w-full" data-coverflow data-cf-fill style="--cf-card: clamp(190px, 30vw, 320px);">
         <div class="relative">
           <div class="cf-frame relative cursor-grab overflow-hidden py-6 active:cursor-grabbing focus-visible:outline-offset-4" data-cf-frame tabindex="0">
             <div class="relative select-none w-full" data-cf-track style="height:var(--cf-card); transform-style:preserve-3d;">
@@ -437,10 +440,10 @@
             </div>
           </div>
 
-          <button type="button" data-cf-prev aria-label="Previous" class="lift absolute left-0 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+          <button type="button" data-cf-prev aria-label="Previous" class="lift absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button type="button" data-cf-next aria-label="Next" class="lift absolute right-0 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
+          <button type="button" data-cf-next aria-label="Next" class="lift absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-[200] w-9 h-9 rounded-full bg-white border border-navy-100 card-sharp flex items-center justify-center text-navy-900/60 hover:text-royal-600 hover:border-royal-100 focus-visible:outline-offset-2">
             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -452,7 +455,6 @@
           <button type="button" data-cf-dot aria-label="Go to slide 4" class="cf-dot w-2 h-2 rounded-full bg-navy-900 focus-visible:outline-offset-2"></button>
         </div>
       </div>
-    </div>
   </section>
 
   <!-- ============ FORM + INFO ============ -->
@@ -595,5 +597,6 @@
 <script src="assets/flow-button.js" defer></script>
 <script src="assets/depth-parallax-words.js" defer></script>
 <script src="assets/coverflow-carousel.js" defer></script>
+<script src="assets/credential-marquee.js" defer></script>
 </body>
 </html>
