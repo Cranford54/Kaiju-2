@@ -64,6 +64,12 @@
       radial-gradient(ellipse 60% 50% at 88% 10%, rgba(0,86,214,0.24), transparent 60%),
       radial-gradient(ellipse 90% 70% at 50% 100%, rgba(10,30,63,0.06), transparent 70%);
   }
+  /* Pulls the hero's own background up behind the floating nav pill (whose
+     shell is transparent outside the pill itself) — negative margin-top +
+     equal padding-top means the hero's content still lands exactly where it
+     did before; only the background extends upward. 78px = the nav shell's
+     rendered height (12px top padding + 66px pill). */
+  .hero-under-nav { margin-top: -78px; padding-top: 78px; }
   .mesh-navy {
     background-image:
       radial-gradient(ellipse 60% 60% at 85% 0%, rgba(200,16,46,0.22), transparent 55%),
@@ -75,6 +81,20 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
   }
 
+  /* ============ FULL-WIDTH HEADER ============
+     Edge-to-edge bar flush with the top of the viewport, separated from the
+     page by a single hairline â€” translucent white glass + backdrop-blur with
+     the site's original white/navy branding. */
+  .nav-shell { padding: 0; }
+  .nav-pill {
+    position: relative;
+    background: rgba(255,255,255,0.88);
+    border-bottom: 1px solid rgba(10,30,63,0.1);
+  }
+
+  .nav-link { color: rgba(10,30,63,0.7); font-weight: 700; transition: color .25s ease; }
+  .nav-link:hover { color: #0A1E3F; }
+  .nav-link.is-active { color: #0A1E3F; }
   ::selection { background: rgba(0,86,214,0.2); color: #0A1E3F; }
 
   a, button { transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1), background-color .25s ease, color .25s ease, border-color .25s ease; }
@@ -149,30 +169,34 @@
 <body class="bg-white text-navy-900 font-sans antialiased">
 
 <!-- ============ NAV ============ -->
-<header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-navy-100/70">
-  <div class="container-page h-16 flex items-center justify-between">
-    <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
-      <img src="assets/image.png" alt="Tax Artists" class="h-11 w-auto">
-    </a>
+<header id="site-header" class="sticky top-0 z-50 nav-shell">
+  <div class="nav-pill backdrop-blur-md">
+    <div class="h-16 lg:h-[77px] px-5 sm:px-7 lg:px-16 xl:px-48 flex items-center justify-between relative z-10">
+      <a href="index.html" class="flex items-center focus-visible:outline-offset-4">
+        <img src="assets/image.png" alt="Tax Artists" class="h-11 w-auto">
+      </a>
 
-    <nav class="hidden lg:flex items-center gap-7 text-[0.9rem]">
-      <a href="about.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">About</a>
-      <a href="services.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Services</a>
-      <a href="tax-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Tax Planning</a>
-      <a href="estate-planning.html" class="text-navy-900/70 hover:text-navy-900 transition-colors">Estate Planning</a>
-      <a href="contact.html" class="text-navy-900 font-semibold">Contact</a>
-    </nav>
+      <div class="flex items-center gap-10">
+        <nav class="hidden lg:flex items-center gap-9 text-[0.9rem]">
+          <a href="about.html" class="nav-link">About</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="tax-planning.html" class="nav-link">Tax Planning</a>
+          <a href="estate-planning.html" class="nav-link">Estate Planning</a>
+          <a href="contact.html" class="nav-link is-active">Contact</a>
+        </nav>
 
-    <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift btn-glow inline-flex items-center rounded-full bg-royal-600 text-white text-[0.85rem] font-medium px-4 py-2 hover:bg-royal-700 active:bg-royal-800 focus-visible:outline-offset-4">
-      Book a call
-    </a>
+        <a href="https://api.leadconnectorhq.com/widget/bookings/sterling-louviere" target="_blank" rel="noopener noreferrer" class="flow-btn lift btn-glow inline-flex items-center rounded-full bg-royal-600 text-white text-[0.85rem] font-medium px-4 py-2 lg:px-8 lg:py-4 hover:bg-royal-700 active:bg-royal-800 focus-visible:outline-offset-4">
+          Book a call
+        </a>
+      </div>
+    </div>
   </div>
 </header>
 
 <main>
 
   <!-- ============ HERO ============ -->
-  <section class="relative overflow-hidden mesh-hero">
+  <section class="relative overflow-hidden mesh-hero hero-under-nav">
     <div class="grain"></div>
     <div class="container-page-hero pt-16 pb-16 lg:pt-20 lg:pb-20 text-center relative">
       <div class="depth-parallax eyebrow text-brick-600">Get in touch</div>
@@ -216,7 +240,7 @@
           </div>
         </div>
 
-        <div class="rounded-2xl border border-white/10 card-elevated overflow-hidden bg-white/95 backdrop-blur" style="height:717px">
+        <div class="rounded-2xl border border-white/10 card-elevated overflow-hidden bg-white/95 backdrop-blur" style="height:780px">
           <iframe
             src="https://api.leadconnectorhq.com/widget/form/jjQQvxHS10JCcY79Db83"
             style="width:100%;height:100%;border:none;border-radius:3px"
@@ -229,7 +253,7 @@
             data-deactivation-type="neverDeactivate"
             data-deactivation-value=""
             data-form-name="Contact Us Form"
-            data-height="717"
+            data-height="780"
             data-layout-iframe-id="inline-jjQQvxHS10JCcY79Db83"
             data-form-id="jjQQvxHS10JCcY79Db83"
             data-cookie-consent="true"
@@ -328,7 +352,6 @@
     <div class="container-page py-5 text-[0.8rem] text-navy-900/40">© 2026 Tax Artists · Clear guidance, filed on time.</div>
   </div>
 </footer>
-
 <script src="assets/flow-button.js" defer></script>
 <script src="assets/depth-parallax-words.js" defer></script>
 </body>
