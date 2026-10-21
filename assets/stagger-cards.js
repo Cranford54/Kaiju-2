@@ -20,6 +20,11 @@
 //                                              inside these skip re-centering
 //                                              so the link navigates normally
 //   [data-stagger-prev] [data-stagger-next]  optional nav buttons
+//   [data-stagger-fill] on the root          optional: clone the cards (as
+//                                              whole sets, aria-hidden unless
+//                                              centered) until they fill the
+//                                              track's width — for full-bleed
+//                                              frames
 (function () {
   var reduceMotion =
     window.matchMedia &&
@@ -34,6 +39,8 @@
     );
     var count = cards.length;
     if (!count) return;
+    var baseCount = count; // original cards; clones repeat them in whole sets
+    var fill = root.hasAttribute("data-stagger-fill");
 
     var center = 0;
     var cardSize = 0;
@@ -58,6 +65,8 @@
         card.classList.toggle("is-active", isCenter);
         card.setAttribute("aria-current", isCenter ? "true" : "false");
         card.setAttribute("tabindex", isCenter ? "0" : "-1");
+        // Clones stay hidden from assistive tech except while centered.
+        if (index >= baseCount) card.setAttribute("aria-hidden", isCenter ? "false" : "true");
       });
     }
 
@@ -70,19 +79,41 @@
       goTo(center + by);
     }
 
-    cards.forEach(function (card, index) {
+    function wire(card) {
       card.addEventListener("click", function (e) {
         if (e.target.closest("[data-stagger-ignore]")) return;
-        goTo(index);
+        goTo(cards.indexOf(card));
       });
       card.addEventListener("keydown", function (e) {
         if (e.target.closest("[data-stagger-ignore]")) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          goTo(index);
+          goTo(cards.indexOf(card));
         }
       });
-    });
+    }
+    cards.forEach(wire);
+
+    // Enough cards that both sides of the track are covered before offsets
+    // wrap at ±count/2. Only ever grows.
+    function ensureFill() {
+      if (!fill || !cardSize) return;
+      var spacing = cardSize / 1.5;
+      var needed = Math.ceil(track.offsetWidth / spacing) + 2;
+      while (count < needed) {
+        for (var i = 0; i < baseCount; i++) {
+          var clone = cards[i].cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          clone.querySelectorAll("a").forEach(function (a) {
+            a.setAttribute("tabindex", "-1");
+          });
+          track.appendChild(clone);
+          cards.push(clone);
+          wire(clone);
+        }
+        count = cards.length;
+      }
+    }
 
     var prevBtn = root.querySelector("[data-stagger-prev]");
     var nextBtn = root.querySelector("[data-stagger-next]");
@@ -101,6 +132,7 @@
 
     function measure() {
       cardSize = cards[0].offsetWidth;
+      ensureFill();
       paint();
     }
 

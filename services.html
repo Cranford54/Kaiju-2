@@ -281,8 +281,10 @@
        to center. Behavior lives in assets/stagger-cards.js; the six cards
        below are plain markup it reads and repositions. -->
   <section class="py-16 lg:py-20">
-    <div class="container-page">
-      <div class="relative" data-stagger tabindex="0" role="group" aria-roledescription="carousel" aria-label="Our services — press left or right to browse">
+    <!-- Full-bleed: no .container-page, so the frame spans the whole viewport;
+         data-stagger-fill clones the cards until they fill that width. -->
+    <div class="w-full">
+      <div class="relative" data-stagger data-stagger-fill tabindex="0" role="group" aria-roledescription="carousel" aria-label="Our services — press left or right to browse">
 
         <div class="stagger-frame relative overflow-hidden">
           <div class="relative w-full h-full" data-stagger-track>
